@@ -17,7 +17,7 @@
 #define MERGE_SORT 4
 #define HEAP_SORT 5
 #define QUICK_SORT 6
-#define SIZE_OF_ARRAY 30000
+#define SIZE_OF_ARRAY 10
 
 //Insertion Sort
 void insertionSort(int *inputArray)
@@ -186,28 +186,33 @@ void heapSort(int *inputArray, int sizeOfArray)
         heapfy(inputArray, 0, i);
     }
 }
+
 // quick sort
-int particao(int *inputArray, int low, int high){
+int particao(int *inputArray, int low, int high)
+{
     int eixo = inputArray[high];
-    int i = low-1;
-    for (int j = low ; j<=high-1 ; j++ ){
-        if (inputArray<=eixo){
+    int i = low - 1;
+    for (int j = low; j <= high - 1; j++)
+    {
+        if (inputArray <= eixo)
+        {
             i++;
-            swapElements(inputArray, i+1, j);
+            swapElements(inputArray, i + 1, j);
         }
     }
-    swapElements(inputArray, i+1, high);
-    return (i+1);
+    swapElements(inputArray, i + 1, high);
+    return (i + 1);
 }
 
-void quickSort (int *inputArray, int low, int high){
-    if (low<high){
+void quickSort(int *inputArray, int low, int high)
+{
+    if (low < high)
+    {
         int indexP = particao(inputArray, low, high);
-        quickSort(inputArray, low, indexP-1);
-        quickSort(inputArray, indexP+1, high);
+        quickSort(inputArray, low, indexP - 1);
+        quickSort(inputArray, indexP + 1, high);
     }
 }
-
 
 //Base Code
 int randInt()
@@ -273,7 +278,7 @@ void executeSort(int *inputArray, int sortAlgorithm)
         algorithmName = "Heap Sort";
         break;
     case QUICK_SORT:
-        quickSort(inputArray, 0, SIZE_OF_ARRAY-1);
+        quickSort(inputArray, 0, SIZE_OF_ARRAY - 1);
         algorithmName = "Quick Sort";
         break;
     default:
@@ -283,7 +288,9 @@ void executeSort(int *inputArray, int sortAlgorithm)
 
     clock_t end = clock();
     double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-    printf("\nWith %s method the execution time was: %f", algorithmName, time_spent);
+    printf("\nWith %s method the execution time was: %f\n", algorithmName, time_spent);
+    printf("The array is now sorted: ");
+    printArray(inputArray);
 }
 
 int main()
@@ -308,10 +315,10 @@ int main()
 
     resetArray(arrayToSort, unsortedArray);
     executeSort(arrayToSort, HEAP_SORT);
-    
+
     resetArray(arrayToSort, unsortedArray);
     executeSort(arrayToSort, QUICK_SORT);
 
-    printf("\n\nWith an array size of %d\n", SIZE_OF_ARRAY);
+    printf("\nWith an array size of %d\n", SIZE_OF_ARRAY);
     return 0;
 }
