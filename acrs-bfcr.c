@@ -85,18 +85,18 @@ void merge(int arr[], int l, int m, int r)
     int i, j, k;
     int n1 = m - l + 1;
     int n2 = r - m;
-
+    
     int L[n1], R[n2];
-
+    
     for (i = 0; i < n1; i++)
         L[i] = arr[l + i];
     for (j = 0; j < n2; j++)
         R[j] = arr[m + 1 + j];
-
+    
     i = 0;
     j = 0;
     k = l;
-
+    
     while (i < n1 && j < n2)
     {
         if (L[i] <= R[j])
@@ -111,14 +111,14 @@ void merge(int arr[], int l, int m, int r)
         }
         k++;
     }
-
+    
     while (i < n1)
     {
         arr[k] = L[i];
         i++;
         k++;
     }
-
+    
     while (j < n2)
     {
         arr[k] = R[j];
@@ -151,17 +151,17 @@ void heapfy(int *inputHeap, int rootIndex, int sizeOfHeap)
     int maxValueIndex = rootIndex; //initialize max value as the root value
     int leftChildIndex = 2 * rootIndex + 1;
     int rightChildIndex = 2 * rootIndex + 2;
-
+    
     if ((leftChildIndex < sizeOfHeap) && (inputHeap[leftChildIndex] > inputHeap[maxValueIndex]))
     {
         maxValueIndex = leftChildIndex;
     }
-
+    
     if ((rightChildIndex < sizeOfHeap) && (inputHeap[rightChildIndex] > inputHeap[maxValueIndex]))
     {
         maxValueIndex = rightChildIndex;
     }
-
+    
     if (maxValueIndex != rootIndex)
     {
         swapElements(inputHeap, rootIndex, maxValueIndex);
@@ -194,10 +194,10 @@ int particao(int *inputArray, int low, int high)
     int i = low - 1;
     for (int j = low; j <= high - 1; j++)
     {
-        if (inputArray <= eixo)
+        if (inputArray[j] <= eixo)
         {
             i++;
-            swapElements(inputArray, i + 1, j);
+            swapElements(inputArray, i, j);
         }
     }
     swapElements(inputArray, i + 1, high);
@@ -252,40 +252,40 @@ void resetArray(int *array1, int *array2)
 
 void executeSort(int *inputArray, int sortAlgorithm)
 {
-
+    
     clock_t begin = clock();
     char *algorithmName = "";
     switch (sortAlgorithm)
     {
-    case INSERTION_SORT:
-        insertionSort(inputArray);
-        algorithmName = "Insertion Sort";
-        break;
-    case BUBBLE_SORT:
-        bubbleSort(inputArray);
-        algorithmName = "Bubble Sort";
-        break;
-    case SELECTION_SORT:
-        selectionSort(inputArray);
-        algorithmName = "Selection Sort";
-        break;
-    case MERGE_SORT:
-        mergeSort(inputArray, 0, SIZE_OF_ARRAY);
-        algorithmName = "Merge Sort";
-        break;
-    case HEAP_SORT:
-        heapSort(inputArray, SIZE_OF_ARRAY);
-        algorithmName = "Heap Sort";
-        break;
-    case QUICK_SORT:
-        quickSort(inputArray, 0, SIZE_OF_ARRAY - 1);
-        algorithmName = "Quick Sort";
-        break;
-    default:
-        printf("Invalid input \n");
-        printf("------------------------------------------------- \n");
+        case INSERTION_SORT:
+            insertionSort(inputArray);
+            algorithmName = "Insertion Sort";
+            break;
+        case BUBBLE_SORT:
+            bubbleSort(inputArray);
+            algorithmName = "Bubble Sort";
+            break;
+        case SELECTION_SORT:
+            selectionSort(inputArray);
+            algorithmName = "Selection Sort";
+            break;
+        case MERGE_SORT:
+            mergeSort(inputArray, 0, SIZE_OF_ARRAY);
+            algorithmName = "Merge Sort";
+            break;
+        case HEAP_SORT:
+            heapSort(inputArray, SIZE_OF_ARRAY);
+            algorithmName = "Heap Sort";
+            break;
+        case QUICK_SORT:
+            quickSort(inputArray, 0, SIZE_OF_ARRAY - 1);
+            algorithmName = "Quick Sort";
+            break;
+        default:
+            printf("Invalid input \n");
+            printf("------------------------------------------------- \n");
     }
-
+    
     clock_t end = clock();
     double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
     printf("\nWith %s method the execution time was: %f\n", algorithmName, time_spent);
@@ -300,25 +300,25 @@ int main()
     initializeArray(unsortedArray);
     printf("The array of random int is: ");
     printArray(unsortedArray);
-
+    
     resetArray(arrayToSort, unsortedArray);
     executeSort(arrayToSort, INSERTION_SORT);
-
+    
     resetArray(arrayToSort, unsortedArray);
     executeSort(arrayToSort, BUBBLE_SORT);
-
+    
     resetArray(arrayToSort, unsortedArray);
     executeSort(arrayToSort, SELECTION_SORT);
-
+    
     resetArray(arrayToSort, unsortedArray);
     executeSort(arrayToSort, MERGE_SORT);
-
+    
     resetArray(arrayToSort, unsortedArray);
     executeSort(arrayToSort, HEAP_SORT);
-
+    
     resetArray(arrayToSort, unsortedArray);
     executeSort(arrayToSort, QUICK_SORT);
-
+    
     printf("\nWith an array size of %d\n", SIZE_OF_ARRAY);
     return 0;
 }
