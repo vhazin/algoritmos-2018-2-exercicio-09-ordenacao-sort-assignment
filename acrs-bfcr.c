@@ -17,6 +17,7 @@
 #define MERGE_SORT 4
 #define HEAP_SORT 5
 #define QUICK_SORT 6
+#define QUICK_SORT_MID 7
 #define SIZE_OF_ARRAY 10
 
 //Insertion Sort
@@ -214,6 +215,31 @@ void quickSort(int *inputArray, int low, int high)
     }
 }
 
+// quick sort mid
+int particaoMid(int *inputArray, int low, int high){
+    int mid = (high+low)/2;
+    int eixo= inputArray[mid];
+    int i = low -1;
+    for (int j=low; j<=high-1; j++){
+        if (inputArray[j]<=eixo){
+            i++;
+            swapElements(inputArray,i,j);
+        }
+    }
+    swapElements(inputArray,i+1,high);
+    return (i+1);
+}
+void quickSortMid(int *inputArray, int low, int high)
+{
+    if (low < high)
+    {
+        int indexP = particao(inputArray, low, high);
+        quickSortMid(inputArray, low, indexP - 1);
+        quickSortMid(inputArray, indexP + 1, high);
+    }
+}
+
+
 //Base Code
 int randInt()
 {
@@ -281,6 +307,9 @@ void executeSort(int *inputArray, int sortAlgorithm)
             quickSort(inputArray, 0, SIZE_OF_ARRAY - 1);
             algorithmName = "Quick Sort";
             break;
+        case QUICK_SORT_MID:
+            quickSortMid(inputArray, 0, SIZE_OF_ARRAY-1);
+            algorithmName = "Quick Sort Mid";
         default:
             printf("Invalid input \n");
             printf("------------------------------------------------- \n");
@@ -318,6 +347,9 @@ int main()
     
     resetArray(arrayToSort, unsortedArray);
     executeSort(arrayToSort, QUICK_SORT);
+    
+    resetArray(arrayToSort, unsortedArray);
+    executeSort(arrayToSort, QUICK_SORT_MID);
     
     printf("\nWith an array size of %d\n", SIZE_OF_ARRAY);
     return 0;
