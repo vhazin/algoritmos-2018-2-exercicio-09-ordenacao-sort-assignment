@@ -24,16 +24,16 @@
 void insertionSort(int *inputArray)
 {
     int i = 0, j = 0, chave;
-    while (i < SIZE_OF_ARRAY - 1)
+    while (i < SIZE_OF_ARRAY - 1)//navege pelo array dado
     {
         chave = inputArray[i + 1];
         j = i;
-        while (j >= 0 && inputArray[j] > chave)
+        while (j >= 0 && inputArray[j] > chave)//equanto item for mnor que que a chave proximo item é trocado com item subsequente
         {
             inputArray[j + 1] = inputArray[j];
             j--;
         }
-        inputArray[j + 1] = chave;
+        inputArray[j + 1] = chave; //chave recebe o valor do proximo array a ser trabalhado
         i++;
     }
 }
@@ -44,9 +44,9 @@ void bubbleSort(int *inputArray)
     int i = 0, j = 0, temp;
     while (i < (SIZE_OF_ARRAY - 1))
     {
-        for (j = 0; j < (SIZE_OF_ARRAY - i - 1); j++)
+        for (j = 0; j < (SIZE_OF_ARRAY - i - 1); j++)//navega array
         {
-            if (inputArray[j] > inputArray[j + 1])
+            if (inputArray[j] > inputArray[j + 1])//caso o item seguinte seja maior que item anterior faz-se a troca dos valores.
             {
                 temp = inputArray[j];
                 inputArray[j] = inputArray[j + 1];
@@ -61,19 +61,19 @@ void bubbleSort(int *inputArray)
 void selectionSort(int *inputArray)
 {
     int i = 0, j, min, temp;
-    while (i < (SIZE_OF_ARRAY - 1))
+    while (i < (SIZE_OF_ARRAY - 1))//faz varredura do array
     {
-        min = i;
+        min = i;//caso não se acha valor minimo no loop de procura a troca do array vai ocorrer com ele mesmo, não mudando nada na ordem.
         j = i + 1;
         while (j < SIZE_OF_ARRAY)
         {
-            if (inputArray[j] < inputArray[min])
+            if (inputArray[j] < inputArray[min])//caso valor do item atual seja menor que valor dado ao item em analise grava-se esse item na variavel mim
             {
                 min = j;
             }
             j++;
         }
-        temp = inputArray[i];
+        temp = inputArray[i];//faz a troca do item atual pelo item de valor minimo
         inputArray[i] = inputArray[min];
         inputArray[min] = temp;
         i++;
@@ -87,18 +87,18 @@ void merge(int arr[], int l, int m, int r)
     int n1 = m - l + 1;
     int n2 = r - m;
     
-    int L[n1], R[n2];
+    int L[n1], R[n2]; //define arrays temporarios para manipulação de items
     
-    for (i = 0; i < n1; i++)
+    for (i = 0; i < n1; i++)//copia-se dados de array origem ao arrays temporarios
         L[i] = arr[l + i];
     for (j = 0; j < n2; j++)
         R[j] = arr[m + 1 + j];
     
-    i = 0;
-    j = 0;
-    k = l;
+    i = 0;//index da lista esquerda sub-array
+    j = 0;//index da lista direita sub-array
+    k = l;//index do array de output
     
-    while (i < n1 && j < n2)
+    while (i < n1 && j < n2)//verifica se item da lista da esquerda é maior ou menor que item da lista esquerda, e insere na lista do output
     {
         if (L[i] <= R[j])
         {
@@ -113,7 +113,7 @@ void merge(int arr[], int l, int m, int r)
         k++;
     }
     
-    while (i < n1)
+    while (i < n1)//transfere items restantes na listas, como os items da esquerda são menores eles são passados primeiro para o array
     {
         arr[k] = L[i];
         i++;
@@ -133,14 +133,14 @@ void mergeSort(int arr[], int l, int r)
     if (l < r)
     {
         int m = l + (r - l) / 2;
-        mergeSort(arr, l, m);
-        mergeSort(arr, m + 1, r);
-        merge(arr, l, m, r);
+        mergeSort(arr, l, m);//aplica mergeSort para partição inicial a partição final -- função vai ser chamada recursivamente até o l == m
+        mergeSort(arr, m + 1, r);//aplica o mesmo para partição inferior, mesmo principio da recursão da primeira será aplicada a essa
+        merge(arr, l, m, r);//faz a junção dos dos arrays, organizando os items
     }
 }
 
 //Heap Sort
-void swapElements(int *inputArray, int index1, int index2)
+void swapElements(int *inputArray, int index1, int index2)// faz troca de items
 {
     int temporary = inputArray[index1];
     inputArray[index1] = inputArray[index2];
@@ -191,17 +191,17 @@ void heapSort(int *inputArray, int sizeOfArray)
 // quick sort
 int particao(int *inputArray, int low, int high)
 {
-    int eixo = inputArray[high];
-    int i = low - 1;
-    for (int j = low; j <= high - 1; j++)
+    int eixo = inputArray[high];//define eixo de comparação apartir do ultimo item da lista
+    int i = low - 1;//define incio da lista a ser navegada
+    for (int j = low; j <= high - 1; j++)//navega array
     {
-        if (inputArray[j] <= eixo)
+        if (inputArray[j] <= eixo)//transfere todos os pontos do array menores que o eixo para a esquerda da posição do eixo no array
         {
             i++;
             swapElements(inputArray, i, j);
         }
     }
-    swapElements(inputArray, i + 1, high);
+    swapElements(inputArray, i + 1, high);//caso o index do ultimo elemento navegado seja menor que o item passado como high, faz a troca dos dois
     return (i + 1);
 }
 
@@ -209,18 +209,18 @@ void quickSort(int *inputArray, int low, int high)
 {
     if (low < high)
     {
-        int indexP = particao(inputArray, low, high);
-        quickSort(inputArray, low, indexP - 1);
-        quickSort(inputArray, indexP + 1, high);
+        int indexP = particao(inputArray, low, high); //particiona o array, passando para o indexP qual até que ponto andou o array na função partição.
+        quickSort(inputArray, low, indexP - 1);//chama recursivamente a função aplicando aos items mais a esquerda do array
+        quickSort(inputArray, indexP + 1, high);//chama recursivamente a função aplicando aos items mais a dirreita do array.
     }
 }
 
 // quick sort mid
 int particaoMid(int *inputArray, int low, int high){
-    int mid = (high+low)/2;
-    int eixo= inputArray[mid];
+    int mid = (high+low)/2;//pega o index do meio do array
+    int eixo= inputArray[mid];//coloca o eixo como item do meio do array
     int i = low -1;
-    for (int j=low; j<=high-1; j++){
+    for (int j=low; j<=high-1; j++){//transfere todos os pontos do array menores que o eixo para a esquerda da posição do eixo no array
         if (inputArray[j]<=eixo){
             i++;
             swapElements(inputArray,i,j);
