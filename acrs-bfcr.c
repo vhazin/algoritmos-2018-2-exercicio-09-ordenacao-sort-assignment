@@ -24,6 +24,10 @@
 //Insertion Sort
 void insertionSort(int *inputArray)
 {
+    /*
+    Insertion sort pega um pivo que inicialmente está em 0 e verifica todos os valores antes dele até encontrar um menor e coloca
+    o pivo logo depois dele. Faz isso para todos os elementos
+    */
     int i = 0, j = 0, chave; //insertion sort tem um "marcador" cujo VALOR nesse marcador é chamado de chave, começa no segundo elemento e vai até o último
     while (i < SIZE_OF_ARRAY - 1) //com i de 0 até o penúltimo valor (já que vai ser comparado par a par com o seguinte)
     {
@@ -43,6 +47,9 @@ void insertionSort(int *inputArray)
 //Bubble Sort
 void bubbleSort(int *inputArray)
 {
+    /*
+    bubbleSort compara par a par os elementos do array, trocando caso o segundo seja menor. Executando isso N vezes
+    */
     int i = 0, j = 0, temp;
     while (i < (SIZE_OF_ARRAY - 1))
     {
@@ -62,6 +69,9 @@ void bubbleSort(int *inputArray)
 //Selection Sort
 void selectionSort(int *inputArray)
 {
+    /*
+    Selection sort tem verifica qual o menor valor no array após o pivo e troca com ele, depois incrementa o pivo.
+    */
     int i = 0, j, min, temp;
     while (i < (SIZE_OF_ARRAY - 1)) //faz varredura do array
     {
