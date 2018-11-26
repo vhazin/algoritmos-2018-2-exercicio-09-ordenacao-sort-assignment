@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <string.h>
 
 #define MAX_RANDOM_INT 500
 #define INSERTION_SORT 1
@@ -229,6 +230,7 @@ int particaoMid(int *inputArray, int low, int high){
     swapElements(inputArray,i+1,high);
     return (i+1);
 }
+
 void quickSortMid(int *inputArray, int low, int high)
 {
     if (low < high)
@@ -262,8 +264,12 @@ void printArray(int *inputArray)
     }
 }
 
-void initializeArray(int *inputArray)
+void generateRandomIntArray(int *inputArray)
 {
+
+    time_t randomIntGenerator; //initializing random number generator
+    srand((unsigned)time(&randomIntGenerator));
+
     for (int i = 0; i < SIZE_OF_ARRAY; i++)
     {
         inputArray[i] = randInt();
@@ -280,36 +286,37 @@ void executeSort(int *inputArray, int sortAlgorithm)
 {
     
     clock_t begin = clock();
-    char *algorithmName = "";
+    char algorithmName[100];
     switch (sortAlgorithm)
     {
         case INSERTION_SORT:
             insertionSort(inputArray);
-            algorithmName = "Insertion Sort";
+            strcpy(algorithmName,"Insertion Sort");
             break;
         case BUBBLE_SORT:
             bubbleSort(inputArray);
-            algorithmName = "Bubble Sort";
+            strcpy(algorithmName,"Bubble Sort");
             break;
         case SELECTION_SORT:
             selectionSort(inputArray);
-            algorithmName = "Selection Sort";
+            strcpy(algorithmName,"Selection Sort");
             break;
         case MERGE_SORT:
             mergeSort(inputArray, 0, SIZE_OF_ARRAY);
-            algorithmName = "Merge Sort";
+            strcpy(algorithmName, "Merge Sort");
             break;
         case HEAP_SORT:
             heapSort(inputArray, SIZE_OF_ARRAY);
-            algorithmName = "Heap Sort";
+            strcpy(algorithmName, "Heap Sort");
             break;
         case QUICK_SORT:
             quickSort(inputArray, 0, SIZE_OF_ARRAY - 1);
-            algorithmName = "Quick Sort";
+            strcpy(algorithmName, "Quick Sort");
             break;
         case QUICK_SORT_MID:
             quickSortMid(inputArray, 0, SIZE_OF_ARRAY-1);
-            algorithmName = "Quick Sort Mid";
+            strcpy(algorithmName, "Quick Sort Mid");
+            break;
         default:
             printf("Invalid input \n");
             printf("------------------------------------------------- \n");
@@ -326,14 +333,15 @@ int main()
 {
     int unsortedArray[SIZE_OF_ARRAY];
     int arrayToSort[SIZE_OF_ARRAY];
-    initializeArray(unsortedArray);
+
+    generateRandomIntArray(unsortedArray);
     printf("The array of random int is: ");
     printArray(unsortedArray);
     
-    resetArray(arrayToSort, unsortedArray);
-    executeSort(arrayToSort, INSERTION_SORT);
+    resetArray(arrayToSort, unsortedArray); //sets arrayToSort = unsortedArray
+    executeSort(arrayToSort, INSERTION_SORT); //execute the Sort on arrayToSort and print outputs
     
-    resetArray(arrayToSort, unsortedArray);
+    resetArray(arrayToSort, unsortedArray); 
     executeSort(arrayToSort, BUBBLE_SORT);
     
     resetArray(arrayToSort, unsortedArray);
