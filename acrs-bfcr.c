@@ -24,17 +24,18 @@
 //Insertion Sort
 void insertionSort(int *inputArray)
 {
-    int i = 0, j = 0, chave;
-    while (i < SIZE_OF_ARRAY - 1) //navege pelo array dado
+    int i = 0, j = 0, chave; //insertion sort tem um "marcador" cujo VALOR nesse marcador é chamado de chave, começa no segundo elemento e vai até o último
+    while (i < SIZE_OF_ARRAY - 1) //com i de 0 até o penúltimo valor (já que vai ser comparado par a par com o seguinte)
     {
-        chave = inputArray[i + 1];
-        j = i;
-        while (j >= 0 && inputArray[j] > chave) //equanto item for mnor que que a chave proximo item é trocado com item subsequente
+        chave = inputArray[i + 1]; //observe que o útimo valor a ser a chave vai ser o último valor do array
+        
+        j = i; //loop de j index do valor antes da chave até o primeiro valor do array
+        while (j >= 0 && inputArray[j] > chave) //equanto o valor inputArray[j] for maior que a chave e o início do array não foi atingido.. 
         {
-            inputArray[j + 1] = inputArray[j];
+            inputArray[j + 1] = inputArray[j]; //troca o valor nas posições inputArray[j + 1] e inputArray[j]
             j--;
         }
-        inputArray[j + 1] = chave; //chave recebe o valor do proximo array a ser trabalhado
+        inputArray[j + 1] = chave; //chave agora será o valor seguinte do array, e é repetido o procedimento
         i++;
     }
 }
@@ -45,11 +46,11 @@ void bubbleSort(int *inputArray)
     int i = 0, j = 0, temp;
     while (i < (SIZE_OF_ARRAY - 1))
     {
-        for (j = 0; j < (SIZE_OF_ARRAY - i - 1); j++) //navega array
+        for (j = 0; j < (SIZE_OF_ARRAY - i - 1); j++) //de j = 0 até o na posição final menos i ( valores acima da posição i já vão estar organizados )
         {
-            if (inputArray[j] > inputArray[j + 1]) //caso o item seguinte seja maior que item anterior faz-se a troca dos valores.
+            if (inputArray[j] > inputArray[j + 1]) //compara os valores do array par a par até chegar o par na posição i-1 e i. Se o valor em j for menor, troca de posição com o j + 1
             {
-                temp = inputArray[j];
+                temp = inputArray[j]; 
                 inputArray[j] = inputArray[j + 1];
                 inputArray[j + 1] = temp;
             }
@@ -83,79 +84,54 @@ void selectionSort(int *inputArray)
 
 //Merge Sort
 
-void merge(int arr[], int l, int m, int r)
+void merge(int arr[], int esq[], int dir[], int n)
 {
-    int i, j, k;
-    int n1 = m - l + 1;
-    int n2 = r - m;
-    
-    int L[n1], R[n2]; //define arrays temporarios para manipulação de items
-    
-    for (i = 0; i < n1; i++)//copia-se dados de array origem ao arrays temporarios
-        L[i] = arr[l + i];
-    for (j = 0; j < n2; j++)
-        R[j] = arr[m + 1 + j];
-    
-    i = 0;//index da lista esquerda sub-array
-    j = 0;//index da lista direita sub-array
-    k = l;//index do array de output
-    
-    while (i < n1 && j < n2)//verifica se item da lista da esquerda é maior ou menor que item da lista esquerda, e insere na lista do output
+    int lenEsq, lenDir;
+    lenEsq = n / 2;
+    lenDir = n - lenEsq;
+    int i = 0, j = 0, k = 0;         //i = index da lista esquerda sub-array ; j = index da lista direita sub-array ; k = index do array de output
+    while (i < lenEsq && j < lenDir) //verifica se item da lista da esquerda é maior ou menor que item da lista esquerda, e insere na lista do output
     {
-        if (L[i] <= R[j])
+        if (esq[i] < dir[j])
         {
-            arr[k] = L[i];
+            arr[k] = esq[i];
             i++;
         }
         else
         {
-            arr[k] = R[j];
+            arr[k] = dir[j];
             j++;
         }
         k++;
     }
-    
-    while (i < n1)//transfere items restantes na listas, como os items da esquerda são menores eles são passados primeiro para o array
+    while (i < lenEsq) //transfere items restantes na listas, como os items da esquerda são menores eles são passados primeiro para o array
     {
-        arr[k] = L[i];
+        arr[k] = esq[i];
         i++;
         k++;
     }
-    
-    while (j < n2)
+
+    while (j < lenDir)
     {
-        arr[k] = R[j];
+        arr[k] = dir[j];
         j++;
         k++;
     }
 }
 
-void mergeSort(int arr[], int l, int r)
-{\
-    if (l < r)
-    {
-        int m = l + (r - l) / 2;
-        mergeSort(arr, l, m);//aplica mergeSort para partição inicial a partição final -- função vai ser chamada recursivamente até o l == m
-        mergeSort(arr, m + 1, r);//aplica o mesmo para partição inferior, mesmo principio da recursão da primeira será aplicada a essa
-        merge(arr, l, m, r);//faz a junção dos dos arrays, organizando os items
-    }
-}
-
-
-void printArrayA(int *inputArray)
+void mergeSort(int arr[], int n)
 {
-    printf("\n");
-    for (int i = 0; i < SIZE_OF_ARRAY; i++)
-    {
-        if (i < (SIZE_OF_ARRAY - 1)) //this is used to not print "," on the last element
-        {
-            printf("%d ", inputArray[i]);
-        }
-        else
-        {
-            printf("%d\n", inputArray[i]);
-        }
-    }
+    if (n <= 1)
+        return;
+    int mid = n / 2, i;
+    int l[mid], r[n - mid];   //define arrays temporarios para manipulação de items
+    for (i = 0; i < mid; i++) //copia-se dados de array origem ao arrays temporarios
+        l[i] = arr[i];
+    for (i = mid; i < n; i++) //copia-se dados de array origem ao arrays temporarios
+        r[i - mid] = arr[i];
+    mergeSort(l, mid);
+    mergeSort(r, n - mid);
+    merge(arr, l, r, n);
 }
 
 void copyArray(int *array1, int *array2)
@@ -166,73 +142,6 @@ void copyArray(int *array1, int *array2)
     }
     return;
 }
-
-/*
-void mergeHalves(int *inputArray, int leftStart, int rightEnd)
-{
-    //leftStart: Index do Início do array da esquerda
-    //leftEnd: Index do Fim do array da esquerda
-    //rightStart: Index do início do array da direita
-    //rightEnd: Index do fim do array da direita
-
-    int leftEnd = (leftStart + rightEnd) / 2;
-    int rightStart = leftEnd + 1;
-    int tempArray[SIZE_OF_ARRAY] ;
-
-    //Imagine dois ponteiros, um no começo da metade esquerda e outro no começo da parte direita:
-    //leftArrayIndex : Index do array da esquerda
-    //rightArrayIndex : Index do array da direita
-
-    int leftArrayIndex = leftStart;
-    int rightArrayIndex = rightStart;
-    int tempArrayIndex = leftStart; 
-
-    while ((leftArrayIndex <= leftEnd) && (rightArrayIndex <= rightEnd)) //Enquanto os ponteiros do array da esquerda e da direita não atingiram seu fim..
-    {
-        if (inputArray[leftArrayIndex] <= inputArray[rightArrayIndex]) //Se o valor do ponteiro da esquerda for menor ou igual ao da direita...
-        {
-            tempArray[tempArrayIndex] = inputArray[leftArrayIndex]; //coloca o valor menor na próxima posição de tempArray
-            leftArrayIndex++;                                       //Move pondeiro do array da esquerda
-        }
-        else
-        {
-            tempArray[tempArrayIndex] = inputArray[rightArrayIndex];
-            rightArrayIndex++; //Move ponteiro do array da direita
-        }
-        printArrayA(tempArray);
-        tempArrayIndex++; //avança o ponteiro em tempArray para o próximo.
-    }
-
-    while (leftArrayIndex <= leftEnd)
-    {   
-        printf("hahaeha\n");
-        tempArray[tempArrayIndex++] = inputArray[leftArrayIndex++];
-    }
-
-    while (rightArrayIndex <= rightEnd)
-    {
-        tempArray[tempArrayIndex++] = inputArray[rightArrayIndex++];
-    }
-
-    copyArray(inputArray, tempArray);
-    return;
-}
-
-void mergeSort(int *inputArray, int startIndex, int endIndex)
-{
-    // startIndex : index do início do array (inicialmente 0)
-    // endIndex : index do fim do array (inicialmente  array.length - 1)
-    int middleIndex = (startIndex + endIndex) / 2;
-    if (startIndex >= endIndex) //recursão mergeSort para quando o index do início é o mesmo do fim ( um elemento sobrou do array)
-    {
-        return;
-    }
-    mergeSort(inputArray, startIndex, middleIndex);   //mergeSort na metade esquerda (start to middle)
-    mergeSort(inputArray, middleIndex + 1, endIndex); //mergeSort na metade direita ( middle to end)
-    mergeHalves(inputArray, startIndex, endIndex);    //junta as metades
-    return;
-}
-*/
 
 //Heap Sort
 void swapElements(int *inputArray, int index1, int index2) // faz troca de items
@@ -398,7 +307,7 @@ void executeSort(int *inputArray, int sortAlgorithm)
         strcpy(algorithmName, "Selection Sort");
         break;
     case MERGE_SORT:
-        mergeSort(inputArray, 0, SIZE_OF_ARRAY - 1);
+        mergeSort(inputArray, SIZE_OF_ARRAY);
         strcpy(algorithmName, "Merge Sort");
         break;
     case HEAP_SORT:
