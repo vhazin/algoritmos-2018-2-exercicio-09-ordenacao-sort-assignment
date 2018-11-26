@@ -19,7 +19,7 @@
 #define HEAP_SORT 5
 #define QUICK_SORT 6
 #define QUICK_SORT_MID 7
-#define SIZE_OF_ARRAY 5
+#define SIZE_OF_ARRAY 10
 
 //Insertion Sort
 void insertionSort(int *inputArray)
@@ -205,6 +205,10 @@ void heapSort(int *inputArray, int sizeOfArray)
 // quick sort
 int particao(int *inputArray, int low, int high)
 {
+    /*
+    No quick sort os valores maior e menor q o pivo são encontrados e trocados até o maior valor ficar a direita do menor. Quando isso acontece
+    o pivo é trocado com o maior e o processo é repetido.
+    */
     int eixo = inputArray[high];          //define eixo de comparação apartir do ultimo item da lista
     int i = low - 1;                      //define incio da lista a ser navegada
     for (int j = low; j <= high - 1; j++) //navega array
